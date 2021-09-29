@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace TESTING.Controllers.models
 {
-    public interface IUserRepo:IGenRepo<Users>
+    public class UserViewModel
     {
-        public Users GetUserWithPost(int id);
-
+        public int id { get; set; }
+        public String name { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TESTING.Controllers.models;
-
+using AutoMapper;
 namespace TESTING.Controllers
 {
     [ApiController]
@@ -15,46 +15,32 @@ namespace TESTING.Controllers
     public class UsersController : ControllerBase
     {
 
-
+        private readonly IMapper _mapper;
         IUserRepo userrepo = null;
 
-
-
-        /*public List<Users> users { get; set; } = new List<Users>()
+        public UsersController(IMapper mapper, IUserRepo userrepo)
         {
-            new Users(){},
-            new Users()
-        };*/
-        public UsersController(IUserRepo userrepo)
-        {
-
+            this._mapper = mapper;
             this.userrepo = userrepo;
+
         }
+
         [HttpGet]
-        public IEnumerable<Users> GetAll()
+        public IActionResult GetIdAndName()
         {
-            return userrepo.get();
+            Users user = new Users();
+            var UVM = _mapper.Map<UserViewModel>(user);
+            return Ok(UVM);
+        }
+        [HttpGet("{size}/{index}")]
+        public IEnumerable<Users> GetAll(int size,int index)
+        {
+            return userrepo.get(size, index);
         }
         [HttpGet("{id}")]
-        public Users get(int id)
+        public Users GetUserWithPost(int id)
         {
-            return userrepo.get(id);
+            return userrepo.GetUserWithPost(id);
         }
-
-        [HttpPost]
-        public void Post(Users t)
-        {
-            userrepo.Post(t);
-        }
-        
-
-
-        [HttpDelete("{id}")]
-        public void DeleteUser(int id)
-        {
-            userrepo.Delete(id);
-
-        }
-
     }
 }

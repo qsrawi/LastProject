@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace TESTING.Controllers.models
 {
     public class GenRepo<T> : IGenRepo<T> where T : class,IBaseModel
@@ -14,28 +14,11 @@ namespace TESTING.Controllers.models
             this._dbContext = dbContext;
         }
 
-
-        public void Delete(int id)
+        public IEnumerable<T> get(int size,int index)
         {
-            var choosen = _dbContext.users.SingleOrDefault(item => item.Id == id);
-            _dbContext.users.Remove(choosen);
-            _dbContext.SaveChanges();
+            return _dbContext.Set<T>().Take(size).ToList().Skip(size * (index - 1));
         }
 
-        public IEnumerable<T> get()
-        {
-            return _dbContext.Set<T>().ToList();
-        }
-
-        public T get(int id)
-        {
-            return _dbContext.Set<T>().SingleOrDefault(item => item.Id == id);
-        }
-
-        public void Post(T t)
-        {
-            _dbContext.Set<T>().Add(t);
-            _dbContext.SaveChanges();
-        }
+      
     }
 }

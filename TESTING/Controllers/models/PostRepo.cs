@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TESTING.Controllers.models
 {
-    public class PostRepo : GenRepo<Users>, IUserRepo
+    public class PostRepo : GenRepo<Post>, IPostRepo
     {
         private readonly AppDbContext _dbContext;
         public PostRepo(AppDbContext dbContext) : base(dbContext)
